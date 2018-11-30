@@ -13,10 +13,10 @@ const forkNames = [
 ]
 
 tape('TransactionTests', (t) => {
-  testing.getTests('TransactionTests', (testName, testData) => {
+  testing.getTests('TransactionTests', (filename, testName, testData) => {
     let rawTx
     let tx
-    t.test(`${testName}: creates tx`, (st) => {
+    t.test(testName, (st) => {
       try {
         rawTx = ethUtil.toBuffer(testData.rlp)
         tx = new Tx(rawTx)
@@ -27,11 +27,10 @@ tape('TransactionTests', (t) => {
         st.equal(undefined, tx, 'should not have any fields ')
         st.end()
       }
-    })
 
-    let sender
-    let hash
-    t.test(`${testName}: tx has correct data`, (st) => {
+      let sender
+      let hash
+
       if (tx && tx.validate()) {
         sender = tx.getSenderAddress().toString('hex')
         hash = tx.hash().toString('hex')
